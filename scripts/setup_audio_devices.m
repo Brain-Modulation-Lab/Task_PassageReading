@@ -1,0 +1,74 @@
+%%%% modify this function based on the task computer and audio devices you are using
+% some computers have specifications for input devices; however we might not end up doing audio recording in the caller script
+
+function cfg = setup_audio_devices(cfg)
+
+if ~exist('cfg','var')
+    cfg = struct; 
+end
+
+cfg.aud_player_fs     = 44100;      % Audio sample rate in Hz
+
+computername = char(java.net.InetAddress.getLocalHost.getHostName); % might not work on non-windows machines
+auddevs = audiodevinfo; 
+    devs_in = {auddevs.input.Name};
+    devs_out = {auddevs.output.Name};
+
+switch computername
+    case 'BML-ALIENWARE2'
+        
+%         cfg.aud_dev_in = 'qqqqq';
+         if any(contains(devs_out,'Focusrite')) % focusrite setup - full intraop rig
+            cfg.aud_dev_out = 'Playback 3 + 4 (5- Focusrite USB Audio)'; 
+            cfg.aud_dev_in = 'Focusrite USB ASIO'; 
+            cfg.driver = 'ASIO'; 
+            cfg.n_chans_in = 6; 
+         else
+            cfg.aud_dev_out = 'Speakers (Realtek(R) Audio)'; % laptop speakers only - for preop
+            cfg.aud_dev_in = 'Microphone (USB PnP Sound Device)'; %%%%% for online speech rate assessment
+            cfg.driver = 'DirectSound'; 
+            cfg.n_chans_in = 1; 
+         end
+         
+
+    case {'677-GUE-WL-0010','677-GUE-WL-0012'}  % AM Thinkpad X1 laptops
+        if any(contains(devs_out,'Focusrite'))
+            cfg.aud_dev_out = 'Speakers (Focusrite USB Audio)'; 
+            cfg.driver = 'ASIO'; 
+            cfg.n_chans_in = 6; 
+        elseif any(contains(devs_out,'Headphones (WF-C500)') ) % if using bluetooth headphones
+            cfg.aud_dev_out = 'Headphones (WF-C500)'; 
+                % cfg.aud_dev_out = 'Headset (WF-C500)'; 
+        elseif  any(contains(devs_out,'Realtek HD Audio 2nd output (Realtek(R) Audio)')); 
+             cfg.aud_dev_out = 'Realtek HD Audio 2nd output (Realtek(R) Audio)'; % 3.5mm headphone jack 
+        else % Thinkpad X1 without headphones
+            cfg.aud_dev_out = 'Speakers (Realtek(R) Audio)'; 
+                % cfg.aud_dev_out = 'ARZOPA'; % portable screen speakers
+        end
+    
+    case '677-GUE-WD-0013' % Guenther lab soundbooth computer
+         % cfg.aud_dev_out = 'Speakers (4- Focusrite Usb Audio)';
+         % cfg.aud_dev_in = 'Focusrite USB ASIO'; 
+         % cfg.driver = 'ASIO'; 
+         % cfg.n_chans_in = 1; 
+
+         cfg.aud_dev_out = 'Speakers (4- Focusrite Usb Audio)';
+         cfg.aud_dev_in = 'Analogue 1 + 2 (4- Focusrite Usb Audio)'; 
+         cfg.driver = 'DirectSound'; 
+         cfg.n_chans_in = 1; 
+
+    case {'AMSMEIER','amsmeier'} % AM strix laptop
+        if any(contains(devs_out,'Speakers (Realtek(R) Audio) (Windows DirectSound)')) 
+            cfg.aud_dev_out = 'Speakers (Realtek(R) Audio)'; 
+            cfg.driver = 'DirectSound'; 
+            cfg.n_chans_in = 1; 
+            cfg.aud_dev_in = 'Microphone Array (Realtek(R) Audio)'; 
+        end
+
+    
+    otherwise 
+        error('unknown computer')
+end
+
+
+
