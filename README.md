@@ -1,4 +1,4 @@
-# Task_Reading
+# Task_PassageReading
 
 MATLAB stimulus presentation, audio recording, and neurophysiology trigger-logging repository for the continuous **Passage Reading** task (`task-reading`). Designed for preoperative (`preop`) and intraoperative (`intraop`) DBS speech/neurophysiology rigs without Psychtoolbox dependencies.
 
@@ -7,8 +7,8 @@ MATLAB stimulus presentation, audio recording, and neurophysiology trigger-loggi
 ## Repository Structure
 
 ```text
-Task_Reading/
-├── START_READING.m                 # Top-level launcher & configuration file (single place to edit)
+Task_PassageReading/
+├── START_PASSAGE_READING.m         # Top-level launcher & configuration file (single place to edit)
 ├── README.md                       # Documentation
 ├── scripts/
 │   ├── task_reading.m              # Main task execution, text chunking, UI, and event logging
@@ -36,18 +36,18 @@ Task_Reading/
 ## Quick Start
 
 1. **Add stimulus file:** Place your reading passage document inside `stimuli/` (e.g., `stimuli/SLD_elicitation_passages.docx`).
-2. **Configure run parameters:** Open `START_READING.m` and set:
+2. **Configure run parameters:** Open `START_PASSAGE_READING.m` and set:
    - `cfg.SUBJECT` (default `'qqq'` for test runs, or subject ID such as `'DM1063'`)
    - `cfg.SESSION` (`'preop'` or `'intraop'`)
    - `cfg.stim_file` (filename inside `stimuli/`, or full path)
-3. **Verify machine paths:** Confirm your machine's hostname (`char(java.net.InetAddress.getLocalHost.getHostName)`) is listed in `START_READING.m` and `scripts/set_paths_reading.m`.
-4. **Launch:** Run `START_READING` in MATLAB.
+3. **Verify machine paths:** Confirm your machine's hostname (`char(java.net.InetAddress.getLocalHost.getHostName)`) is listed in `START_PASSAGE_READING.m` and `scripts/set_paths_reading.m`.
+4. **Launch:** Run `START_PASSAGE_READING` in MATLAB.
 
 ---
 
-## Configuration Parameters (`START_READING.m`)
+## Configuration Parameters (`START_PASSAGE_READING.m`)
 
-All task settings are defined in the `cfg` struct at the top of `START_READING.m`:
+All task settings are defined in the `cfg` struct at the top of `START_PASSAGE_READING.m`:
 
 | Parameter | Default | Description |
 | :--- | :--- | :--- |
