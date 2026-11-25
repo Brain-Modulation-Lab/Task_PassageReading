@@ -11,8 +11,8 @@ cfg = struct();
 cfg.SUBJECT = 'qqq';      % default for test runs
 % cfg.SUBJECT = 'DM1063';
 
-cfg.SESSION = 'preop';
-% cfg.SESSION = 'intraop';
+% cfg.SESSION = 'preop';
+cfg.SESSION = 'intraop';
 
 %% ---------------- Stimulus & display parameters ----------------
 cfg.stim_file                   = 'SLD_elicitation_passages.docx'; % supports .docx, .rtf, .txt, .md, .html, .pdf, .doc
